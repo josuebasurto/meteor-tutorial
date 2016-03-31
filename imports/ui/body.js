@@ -6,6 +6,27 @@ import './body.html';
  
 Template.body.helpers({
   tasks() {
-    return Tasks.find({});
+    //return Tasks.find({});
+    return Tasks.find({}, { sort: { createdAt: -1 } });
+  },
+});
+
+Template.body.events({
+  'submit .new-task'(event) {
+    // Prevent default browser form submit
+    event.preventDefault();
+ 
+    // Get value from form element
+    const webform = event.target;
+    const text = webform.text.value;
+ 
+    // Insert a task into the collection
+    Tasks.insert({
+      text,
+      createdAt: new Date(), // current time
+    });
+ 
+    // Clear form
+    webform.text.value = '';
   },
 });
